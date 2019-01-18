@@ -24,6 +24,35 @@
     </tr>
   </tbody>
 </table>
+<table [formGroup]="editForm">
+  <tbody>
+    <tr>
+      <td>{{ currentPostId }}</td>
+    </tr>
+    <tr>
+      <td>Title</td>
+      <td><input type="text" formControlName="title" /></td>
+    </tr>
+    <tr>
+      <td>Description</td>
+      <td><input type="text" formControlName="desc" /></td>
+    </tr>
+    <tr>
+      <td>Add Hashtags</td>
+      <td><button (click)="addHashtags_()">+</button></td>
+    </tr>
+    <ng-container formArrayName="hashtags">
+      <tr *ngFor="let x of editForm.get('hashtags').controls; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td><input type="text" [formControlName]="i" /></td>
+      </tr>
+    </ng-container>
+    <tr>
+      <td></td>
+      <td><button (click)="editPost()">Edit post</button></td>
+    </tr>
+  </tbody>
+</table>
 <hr />
 <ul>
   <li *ngFor="let x of posts">
@@ -32,5 +61,7 @@
     <ul>
       <li *ngFor="let hashtag of x.hashtags">{{ hashtag }}</li>
     </ul>
+    <button (click)="setDataToEditForm(x)">Edit</button>
+    <button (click)="del(x._id)">Delete</button>
   </li>
 </ul>
